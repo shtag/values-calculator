@@ -1,0 +1,38 @@
+<form [formGroup]="form">
+  <p>Calculator</p>
+  <div *ngFor="let item of (items$|async )">
+    <mat-form-field appearance="outline" class="value">
+      <input 
+      formControlName="value_{{item.id}}"
+      matInput 
+      (change)="changeField(item.id)" 
+      type="text" 
+      class="value" 
+      placeholder="Value" 
+      >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-select 
+      formControlName="type_{{item.id}}"
+      placeholder="Select" 
+      (selectionChange)="changeField(item.id)"
+      [value]="item.valueType"
+      >
+        <mat-option value="">Select</mat-option>
+        <mat-option value="1">first</mat-option>
+        <mat-option value="2">second</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button 
+    type="button"
+    (click)="deleteField(item.id)"
+    *ngIf="((items$)| async)!.length > 2" 
+    mat-mini-fab color="warn" 
+    aria-label="delete">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+  <button mat-raised-button type="button" (click)="addField()">add</button>
+  <button mat-raised-button type="button" (click)="logger()">log(check)</button>
+  <button mat-raised-button type="button" >reset</button>
+</form>
