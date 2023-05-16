@@ -3,13 +3,17 @@ import { CommonModule } from '@angular/common';
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
 import { SharedModule } from '../shared/shared.module';
+import { ValueItemComponent } from './components/value-item/value-item.component';
+import { MainFormComponent } from './components/main-form/main-form.component';
 
 
 
 @NgModule({
   declarations: [
     FooterComponent,
-    HeaderComponent
+    HeaderComponent,
+    ValueItemComponent,
+    MainFormComponent
   ],
   imports: [
     CommonModule,
@@ -17,7 +21,9 @@ import { SharedModule } from '../shared/shared.module';
   ],
   exports: [
     FooterComponent,
-    HeaderComponent
+    HeaderComponent,
+    ValueItemComponent,
+    MainFormComponent
   ]
 })
 export class CoreModule { }
