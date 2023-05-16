@@ -1,1 +1,24 @@
-<p>main works!</p>
+<mat-card>
+  <button mat-button (click)="changeLang()">change lang</button>
+  <mat-card-content>
+    <form [formGroup]="form">
+      <mat-form-field appearance="fill">
+        <mat-label>Select</mat-label>
+        <mat-select 
+        [(value)]="currentType" 
+        (selectionChange)="changeType()"
+        formControlName="typeSelector"
+        >
+          <mat-option value="">Select</mat-option>
+          <mat-option *ngFor="let item of items" [value]="item">{{item | titlecase}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </mat-card-content>
+</mat-card>
+<mat-card>
+  <mat-card-content>
+    <app-main-form></app-main-form>
+  </mat-card-content>
+</mat-card>
+
