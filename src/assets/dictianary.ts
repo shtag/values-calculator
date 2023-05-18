@@ -141,21 +141,46 @@ export const quantityDictionary: Dictionary = {
 
 export interface GeneralDictionary {
   en: GeneralDictionaryLanguage,
-  ru: GeneralDictionaryLanguage
+  ru: GeneralDictionaryLanguage,
+  uk: GeneralDictionaryLanguage,
 }
 
 export interface GeneralDictionaryLanguage {
   title: string;
   select: string;
+  settings: string;
+  language: string;
+  theme: string;
+  dark: string;
+  light: string;
 }
 
 export const generalDictionary: GeneralDictionary = {
   en: {
     title: 'Quantity calculator',
-    select: 'Select'
+    select: 'Select',
+    settings: 'Settings',
+    language: 'Language',
+    theme: 'Theme',
+    dark: 'Dark',
+    light: 'Light'
   },
   ru: {
     title: 'Калькулятор величин',
-    select: 'Выбрать'
+    select: 'Выбрать',
+    settings: 'Настройки',
+    language: 'Язык',
+    theme: 'Тема',
+    dark: 'Тёмная',
+    light: 'Светлая'
+  },
+  uk: {
+    title: 'Калькулятор величин',
+    select: 'Вибрати',
+    settings: 'Налаштування',
+    language: 'Мова',
+    theme: 'Тема',
+    dark: 'Темна',
+    light: 'Світла'
   }
 }

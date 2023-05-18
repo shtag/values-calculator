@@ -8,6 +8,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatIconModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
+    MatDialogModule,
+    MatButtonToggleModule,
   ],
   exports: [
     MatSlideToggleModule,
@@ -33,7 +37,9 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatCardModule,
     MatButtonModule,
     MatIconModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatDialogModule,
+    MatButtonToggleModule
   ]
 })
 export class SharedModule { }

@@ -1,0 +1,18 @@
+<h2>{{(dictionaryGeneral$|async)?.settings }}</h2>
+
+<section>
+  {{(dictionaryGeneral$|async)?.language }}: 
+  <mat-button-toggle-group [(ngModel)]="language" (click)="changeLang()" name="fontStyle" aria-label="Font Style">
+    
+    <mat-button-toggle value="ru">Русский</mat-button-toggle>
+    <mat-button-toggle value="en">English</mat-button-toggle>
+  </mat-button-toggle-group>
+<section>
+
+</section>
+  {{(dictionaryGeneral$|async)?.theme }}: 
+  <mat-button-toggle-group [(ngModel)]="theme" (click)="changeTheme()" name="fontStyle" aria-label="Font Style">
+    <mat-button-toggle value="dark">{{(dictionaryGeneral$|async)?.dark }}</mat-button-toggle>
+    <mat-button-toggle value="light">{{(dictionaryGeneral$|async)?.light }}</mat-button-toggle>
+  </mat-button-toggle-group>
+</section>

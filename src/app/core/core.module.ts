@@ -4,6 +4,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
 import { SharedModule } from '../shared/shared.module';
 import { MainFormComponent } from './components/main-form/main-form.component';
+import { SettingsDialogComponent } from './components/settings-dialog/settings-dialog.component';
 
 
 
@@ -11,7 +12,8 @@ import { MainFormComponent } from './components/main-form/main-form.component';
   declarations: [
     FooterComponent,
     HeaderComponent,
-    MainFormComponent
+    MainFormComponent,
+    SettingsDialogComponent
   ],
   imports: [
     CommonModule,
