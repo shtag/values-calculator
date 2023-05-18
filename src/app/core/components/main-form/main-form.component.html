@@ -19,8 +19,9 @@
       [value]="item.valueType"
       >
         <mat-option value="">Select</mat-option>
-        <mat-option value="1">first</mat-option>
-        <mat-option value="2">second</mat-option>
+        <mat-option 
+        *ngFor="let item of items"
+        value="item.value">{{item.value | titlecase}}</mat-option>
       </mat-select>
     </mat-form-field>
     <button 

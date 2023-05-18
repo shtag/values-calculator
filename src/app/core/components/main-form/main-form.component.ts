@@ -14,6 +14,7 @@ import { selectFields } from 'src/app/state/state.selectors';
 export class MainFormComponent implements OnDestroy {
 
   constructor(private store: Store) {
+    this.types = [];
     this.form = new FormGroup({});
     this.items = []
     this.items$ = this.store.select(selectFields)
@@ -31,6 +32,8 @@ export class MainFormComponent implements OnDestroy {
   items$: Observable<Field[]>
 
   items: Field[];
+
+  types: string[];
 
   form: FormGroup;
 

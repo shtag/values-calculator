@@ -2,10 +2,11 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Observable, startWith } from 'rxjs';
+import { Observable } from 'rxjs';
 import { DictionaryService } from 'src/app/core/services/dictionary.service';
-import { setCurrentType, updateLanguage } from 'src/app/state/state.actions';
-import { selectCurrentType, selectLanguage } from 'src/app/state/state.selectors';
+import { setCurrentType } from 'src/app/state/state.actions';
+import { selectCurrentType } from 'src/app/state/state.selectors';
+import { GeneralDictionaryLanguage } from 'src/assets/dictianary';
 
 @Component({
   selector: 'app-main',
@@ -15,25 +16,24 @@ import { selectCurrentType, selectLanguage } from 'src/app/state/state.selectors
 export class MainComponent {
   currentType$: Observable<string>;
 
-  constructor(private store: Store, private dictionary: DictionaryService) {
+  constructor(private store: Store, private dictionaryService: DictionaryService) {
     this.items = [];
-    this.language = 'en';
     this.currentType$ = this.store.select(selectCurrentType)
     this.currentType$.subscribe(type => this.currentType = type)
-    this.dictionary.dictionary$.subscribe(dictionary => {
+    this.dictionaryService.dictionary$.subscribe(dictionary => {
       this.items = [];
       Object.values(dictionary).forEach(el => {
         this.items.push(el.name)
       })
-    })
-    this.store.select(selectLanguage).subscribe(language => {
-      this.language = language
+      this.items.sort()
     });
+    this.dictionaryGeneral$ = this.dictionaryService.dictionaryGeneral$;
+
   }
 
-  items: string[];
+  dictionaryGeneral$: Observable<GeneralDictionaryLanguage>;
 
-  language: 'en' | 'ru';
+  items: string[];
 
   currentType = 'area'
 
@@ -46,14 +46,5 @@ export class MainComponent {
     if (this.form.value.typeSelector) {
       this.store.dispatch(setCurrentType({ currentType: this.form.value.typeSelector }))
     }
-  }
-
-  changeLang() {
-    if (this.language === 'en') {
-      this.language = 'ru'
-    } else {
-      this.language = 'en'
-    }
-    this.store.dispatch(updateLanguage({ language: this.language }))
   }
 }
