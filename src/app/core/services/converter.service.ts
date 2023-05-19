@@ -58,10 +58,16 @@ export class ConverterService {
           const value = (valueCI * coef[id.type])
           const res = {
             type: types[item].type as string,
-            value: Number(value.toFixed(4)).toString(),
+            value: Number(value.toFixed(3)).toString(),
             id: item
           }
-          this.store.dispatch(updateFieldValue({ id: +item, value: res.value, valueType: res.type }))
+          if (+item === fieldData.id) {
+
+            this.store.dispatch(updateFieldValue({ id: +item, value: fieldData.value, valueType: res.type }))
+          } else {
+
+            this.store.dispatch(updateFieldValue({ id: +item, value: res.value, valueType: res.type }))
+          }
           result.push(res)
         }
       }
