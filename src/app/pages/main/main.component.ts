@@ -18,12 +18,10 @@ export class MainComponent {
 
   constructor(private store: Store, private dictionaryService: DictionaryService) {
     this.currentType$ = this.store.select(selectCurrentType)
-    this.currentType$.subscribe(type => this.currentType = type)
     this.dictionaryService.dictionary$.subscribe(dictionary => {
       this.types = []
       console.log(dictionary);
       Object.entries(dictionary).forEach(type => {
-        // console.log(type);
         this.types.push({ name: type[1].name, value: type[0] });
       });
     });
@@ -32,7 +30,6 @@ export class MainComponent {
 
   dictionaryGeneral$: Observable<GeneralDictionaryLanguage> = this.dictionaryService.dictionaryGeneral$;
 
-  currentType = 'area';
 
   types: { name: string; value: string }[] = []
 
