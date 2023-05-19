@@ -7,6 +7,7 @@ import { addField, deleteField, updateFieldValue } from 'src/app/state/state.act
 import { selectCurrentType, selectFields } from 'src/app/state/state.selectors';
 import { DictionaryService } from '../../services/dictionary.service';
 import { GeneralDictionaryLanguage, Types } from 'src/assets/dictianary';
+import { ConverterService } from '../../services/converter.service';
 
 @Component({
   selector: 'app-main-form',
@@ -18,6 +19,7 @@ export class MainFormComponent implements OnDestroy {
   constructor(
     private store: Store,
     private dictionaryService: DictionaryService,
+    private converter: ConverterService
   ) {
     this.items$.subscribe(item => {
       this.items = [];
@@ -66,13 +68,34 @@ export class MainFormComponent implements OnDestroy {
   }
 
   changeField(id: number) {
-    const value = this.form.value[`value_${id}`];
-    const type = this.form.value[`type_${id}`];
-    this.store.dispatch(updateFieldValue({ id: id, value: value, valueType: type }))
+    const value = this.form.value[`value_${id}`] as string;
+    const type = this.form.value[`type_${id}`] as string;
+    const field = { id: id, value: value, valueType: type }
+    this.converter.convert(field, this.form);
+    // this.store.dispatch(updateFieldValue({ id: id, value: value, valueType: type }))
   }
 
   logger() {
-    console.log('main form:', this.form.value)
+    const types: { [id: string]: { value?: string, type?: string } } = {}
+    const arr = Object.entries(this.form.value);
+    arr.forEach(el => {
+      const id = el[0].split('_')[1];
+      const type = el[0].split('_')[0];
+      const bol = Object.prototype.hasOwnProperty.call(types, id);
+      if (!bol) {
+        types[id] = {
+          value: '',
+          type: ''
+        }
+      }
+      if (type === 'type') {
+        types[id].type = el[1] as string;
+      }
+      if (type === 'value') {
+        types[id].value = el[1] as string;
+      }
+    })
+    // this.converter.convert('1', 'inch', types);
   }
 
   ngOnDestroy(): void {

@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { DictionaryService } from 'src/app/core/services/dictionary.service';
 import { setCurrentType } from 'src/app/state/state.actions';
 import { selectCurrentType } from 'src/app/state/state.selectors';
-import { GeneralDictionaryLanguage } from 'src/assets/dictianary';
+import { GeneralDictionaryLanguage, Types } from 'src/assets/dictianary';
 
 @Component({
   selector: 'app-main',
@@ -14,13 +14,12 @@ import { GeneralDictionaryLanguage } from 'src/assets/dictianary';
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent {
-  currentType$: Observable<string>;
+  currentType$: Observable<Types>;
 
   constructor(private store: Store, private dictionaryService: DictionaryService) {
     this.currentType$ = this.store.select(selectCurrentType)
     this.dictionaryService.dictionary$.subscribe(dictionary => {
       this.types = []
-      console.log(dictionary);
       Object.entries(dictionary).forEach(type => {
         this.types.push({ name: type[1].name, value: type[0] });
       });
@@ -41,6 +40,5 @@ export class MainComponent {
     if (this.form.value.typeSelector || this.form.value.typeSelector === '') {
       this.store.dispatch(setCurrentType({ currentType: this.form.value.typeSelector }))
     }
-    console.log(this.form.value)
   }
 }
