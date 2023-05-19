@@ -1,9 +1,10 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { Field } from './app.state';
+import { Types } from 'src/assets/dictianary';
 
 export const selectFieldsState = createFeatureSelector<{
   fields: Field[],
-  currentType: string,
+  currentType: Types,
   language: 'en' | 'ru'
 }>('fields');
 

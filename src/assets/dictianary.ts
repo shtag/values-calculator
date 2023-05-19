@@ -16,6 +16,8 @@ export interface UnitTranslation {
   values: Record<string, string>;
 }
 
+export type Types = 'length' | 'volume' | 'area' | 'weight' | 'temperature'
+
 export const quantityDictionary: Dictionary = {
   ru: {
     length: {

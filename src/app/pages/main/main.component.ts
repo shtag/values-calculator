@@ -17,32 +17,28 @@ export class MainComponent {
   currentType$: Observable<string>;
 
   constructor(private store: Store, private dictionaryService: DictionaryService) {
-    this.items = [];
     this.currentType$ = this.store.select(selectCurrentType)
     this.currentType$.subscribe(type => this.currentType = type)
     this.dictionaryService.dictionary$.subscribe(dictionary => {
-      this.items = [];
-      Object.values(dictionary).forEach(el => {
-        this.items.push(el.name)
-      })
-      this.items.sort()
+      this.types = []
+      Object.entries(dictionary).forEach(type => {
+        this.types.push({ name: type[1].name, value: type[0] });
+      });
     });
-    this.dictionaryGeneral$ = this.dictionaryService.dictionaryGeneral$;
 
   }
 
-  dictionaryGeneral$: Observable<GeneralDictionaryLanguage>;
+  dictionaryGeneral$: Observable<GeneralDictionaryLanguage> = this.dictionaryService.dictionaryGeneral$;
 
-  items: string[];
+  currentType = 'area';
 
-  currentType = 'area'
+  types: { name: string; value: string }[] = []
 
   form = new FormGroup({
     typeSelector: new FormControl()
   })
 
   changeType() {
-    console.log(this.form.value);
     if (this.form.value.typeSelector) {
       this.store.dispatch(setCurrentType({ currentType: this.form.value.typeSelector }))
     }

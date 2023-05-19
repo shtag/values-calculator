@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+import { Types } from 'src/assets/dictianary';
 
 
 export const addField = createAction(
@@ -13,7 +14,7 @@ export const deleteField = createAction(
 
 export const setCurrentType = createAction(
   '[Field] Set Current Type',
-  props<{ currentType: string }>()
+  props<{ currentType: Types }>()
 );
 
 export const updateFieldValue = createAction(

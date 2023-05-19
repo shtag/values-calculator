@@ -1,3 +1,5 @@
+import { Types } from "src/assets/dictianary";
+
 export interface Field {
   id: number;
   value: string;
@@ -5,7 +7,7 @@ export interface Field {
 }
 
 export interface AppState {
-  currentType: string;
+  currentType: Types;
   language: 'ru' | 'en';
   fields: Field[]
 }
@@ -14,13 +16,13 @@ export const initialState: AppState = {
   fields: [
     {
       id: 1,
-      value: 'one',
-      valueType: '1'
+      value: '',
+      valueType: ''
     },
     {
       id: 2,
-      value: 'two',
-      valueType: '2'
+      value: '',
+      valueType: ''
     },
   ],
   language: 'en',

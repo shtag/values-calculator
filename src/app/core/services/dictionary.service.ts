@@ -11,11 +11,6 @@ import { updateLanguage } from 'src/app/state/state.actions';
 export class DictionaryService {
   constructor(private store: Store) {
     this.loadLanguage();
-    /// set initial value
-    this.dictionary$ = new BehaviorSubject(quantityDictionary.en);
-    this.dictionaryGeneral$ = new BehaviorSubject(generalDictionary.en);
-    this.language$ = new BehaviorSubject<'ru' | 'en'>('en');
-    ///
     this.store.select(selectLanguage).subscribe(language => {
       this.language$.next(language);
       this.dictionary$.next(quantityDictionary[language]);
@@ -23,11 +18,11 @@ export class DictionaryService {
     });
   }
 
-  language$: BehaviorSubject<'ru' | 'en'>;
+  language$: BehaviorSubject<'ru' | 'en'> = new BehaviorSubject<'ru' | 'en'>('en');
 
-  dictionary$: BehaviorSubject<LanguageDictionary>;
+  dictionary$: BehaviorSubject<LanguageDictionary> = new BehaviorSubject(quantityDictionary.en);
 
-  dictionaryGeneral$: BehaviorSubject<GeneralDictionaryLanguage>;
+  dictionaryGeneral$: BehaviorSubject<GeneralDictionaryLanguage> = new BehaviorSubject(generalDictionary.en);
 
   loadLanguage() {
     const initialLanguage = 'en';

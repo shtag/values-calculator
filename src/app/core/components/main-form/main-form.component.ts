@@ -1,10 +1,12 @@
 import { Component, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Field } from 'src/app/state/app.state';
 import { addField, deleteField, updateFieldValue } from 'src/app/state/state.actions';
-import { selectFields } from 'src/app/state/state.selectors';
+import { selectCurrentType, selectFields } from 'src/app/state/state.selectors';
+import { DictionaryService } from '../../services/dictionary.service';
+import { GeneralDictionaryLanguage, Types } from 'src/assets/dictianary';
 
 @Component({
   selector: 'app-main-form',
@@ -13,11 +15,10 @@ import { selectFields } from 'src/app/state/state.selectors';
 })
 export class MainFormComponent implements OnDestroy {
 
-  constructor(private store: Store) {
-    this.types = [];
-    this.form = new FormGroup({});
-    this.items = []
-    this.items$ = this.store.select(selectFields)
+  constructor(
+    private store: Store,
+    private dictionaryService: DictionaryService,
+  ) {
     this.items$.subscribe(item => {
       this.items = [];
       this.form = new FormGroup({});
@@ -27,15 +28,31 @@ export class MainFormComponent implements OnDestroy {
         this.form.addControl(`type_${field.id}`, new FormControl(field.valueType))
       })
     })
+    this.generalDictionary$ = this.dictionaryService.dictionaryGeneral$
+    this.dictionaryService.dictionary$.subscribe(dictionary => {
+      this.currentType$.subscribe((type) => {
+        this.types = [];
+        Object.entries(dictionary[type].values).forEach(type => {
+          this.types.push({ name: type[1], value: type[0] });
+        })
+        this.types.sort((a, b) => {
+          return (a.name >= b.name) ? 1 : -1;
+        })
+      })
+    })
   }
 
-  items$: Observable<Field[]>
+  private currentType$: Observable<Types> = this.store.select(selectCurrentType);
 
-  items: Field[];
+  items$: Observable<Field[]> = this.store.select(selectFields);
 
-  types: string[];
+  items: Field[] = [];
 
-  form: FormGroup;
+  generalDictionary$: Observable<GeneralDictionaryLanguage>;
+
+  types: { value: string; name: string }[] = [];
+
+  form: FormGroup = new FormGroup({});
 
   addField() {
     const id = this.items.sort().reverse()[0].id + 1;
@@ -53,8 +70,7 @@ export class MainFormComponent implements OnDestroy {
   }
 
   logger() {
-    console.log('logger');
-    console.log(this.form.value)
+    console.log('main form:', this.form.value)
   }
 
   ngOnDestroy(): void {

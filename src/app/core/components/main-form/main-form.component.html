@@ -18,10 +18,10 @@
       (selectionChange)="changeField(item.id)"
       [value]="item.valueType"
       >
-        <mat-option value="">Select</mat-option>
+        <mat-option value="">{{(generalDictionary$ | async)?.select}}</mat-option>
         <mat-option 
-        *ngFor="let item of items"
-        value="item.value">{{item.value | titlecase}}</mat-option>
+        *ngFor="let type of types"
+        [value]="type.value">{{type.name | titlecase}}</mat-option>
       </mat-select>
     </mat-form-field>
     <button 
