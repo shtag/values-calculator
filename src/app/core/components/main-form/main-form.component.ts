@@ -32,9 +32,11 @@ export class MainFormComponent implements OnDestroy {
     this.dictionaryService.dictionary$.subscribe(dictionary => {
       this.currentType$.subscribe((type) => {
         this.types = [];
-        Object.entries(dictionary[type].values).forEach(type => {
-          this.types.push({ name: type[1], value: type[0] });
-        })
+        if (type) {
+          Object.entries(dictionary[type]?.values).forEach(type => {
+            this.types.push({ name: type[1], value: type[0] });
+          })
+        }
         this.types.sort((a, b) => {
           return (a.name >= b.name) ? 1 : -1;
         })

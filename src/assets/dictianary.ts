@@ -9,6 +9,7 @@ export interface LanguageDictionary {
   area: UnitTranslation;
   weight: UnitTranslation;
   temperature: UnitTranslation;
+  // '': UnitTranslation;
 }
 
 export interface UnitTranslation {
@@ -16,7 +17,7 @@ export interface UnitTranslation {
   values: Record<string, string>;
 }
 
-export type Types = 'length' | 'volume' | 'area' | 'weight' | 'temperature'
+export type Types = 'length' | 'volume' | 'area' | 'weight' | 'temperature' | ''
 
 export const quantityDictionary: Dictionary = {
   ru: {
@@ -47,7 +48,6 @@ export const quantityDictionary: Dictionary = {
     area: {
       name: 'площадь',
       values: {
-        liter: 'литр',
         'square centimetre': 'сантиметр кубический',
         'square decimetre': 'дециметр кубический',
         'square metre': 'метр кубический',
@@ -77,7 +77,13 @@ export const quantityDictionary: Dictionary = {
         C: 'цельсий (°C)',
         F: 'фаренгейт (°F)'
       }
-    }
+    },
+    // '': {
+    //   name: '',
+    //   values: {
+    //     '': ''
+    //   }
+    // }
   },
   en: {
     length: {
@@ -107,7 +113,6 @@ export const quantityDictionary: Dictionary = {
     area: {
       name: 'area',
       values: {
-        liter: 'liter',
         'square centimetre': 'square centimetre',
         'square decimetre': 'square decimetre',
         'square metre': 'square metre',
@@ -137,52 +142,66 @@ export const quantityDictionary: Dictionary = {
         C: 'celsius (°C)',
         F: 'fahrenheit (°F)'
       }
-    }
+    },
+    // '': {
+    //   name: '',
+    //   values: {
+    //     '': ''
+    //   }
+    // }
   }
 }
 
 export interface GeneralDictionary {
   en: GeneralDictionaryLanguage,
   ru: GeneralDictionaryLanguage,
-  uk: GeneralDictionaryLanguage,
+  // uk: GeneralDictionaryLanguage,
 }
 
 export interface GeneralDictionaryLanguage {
   title: string;
   select: string;
+  value: string;
   settings: string;
   language: string;
   theme: string;
   dark: string;
   light: string;
+  pleaseEnter: string;
 }
 
 export const generalDictionary: GeneralDictionary = {
   en: {
     title: 'Quantity calculator',
     select: 'Select',
+    value: 'Value',
     settings: 'Settings',
     language: 'Language',
     theme: 'Theme',
     dark: 'Dark',
-    light: 'Light'
+    light: 'Light',
+    pleaseEnter: 'Please, enter value to calculate'
   },
   ru: {
     title: 'Калькулятор величин',
     select: 'Выбрать',
+    value: 'Величина',
     settings: 'Настройки',
     language: 'Язык',
     theme: 'Тема',
     dark: 'Тёмная',
-    light: 'Светлая'
+    light: 'Светлая',
+    pleaseEnter: 'Выберите величину для расчета'
   },
-  uk: {
-    title: 'Калькулятор величин',
-    select: 'Вибрати',
-    settings: 'Налаштування',
-    language: 'Мова',
-    theme: 'Тема',
-    dark: 'Темна',
-    light: 'Світла'
-  }
+  // uk: {
+  //   title: 'Калькулятор величин',
+  //   select: 'Вибрати',
+  //   value: 'Величина',
+  //   settings: 'Налаштування',
+  //   language: 'Мова',
+  //   theme: 'Тема',
+  //   dark: 'Темна',
+  //   light: 'Світла',
+  //   pleaseEnter: ''
+  // }
 }

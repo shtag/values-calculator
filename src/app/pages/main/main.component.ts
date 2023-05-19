@@ -21,7 +21,9 @@ export class MainComponent {
     this.currentType$.subscribe(type => this.currentType = type)
     this.dictionaryService.dictionary$.subscribe(dictionary => {
       this.types = []
+      console.log(dictionary);
       Object.entries(dictionary).forEach(type => {
+        // console.log(type);
         this.types.push({ name: type[1].name, value: type[0] });
       });
     });
@@ -39,8 +41,9 @@ export class MainComponent {
   })
 
   changeType() {
-    if (this.form.value.typeSelector) {
+    if (this.form.value.typeSelector || this.form.value.typeSelector === '') {
       this.store.dispatch(setCurrentType({ currentType: this.form.value.typeSelector }))
     }
+    console.log(this.form.value)
   }
 }

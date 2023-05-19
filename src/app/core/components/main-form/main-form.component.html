@@ -1,20 +1,20 @@
 <form [formGroup]="form">
   <p>Calculator</p>
-  <div *ngFor="let item of (items$|async )">
-    <mat-form-field appearance="outline" class="value">
+  <div *ngFor="let item of (items$|async )" class="field_line">
+    <mat-form-field appearance="outline" class="value_field">
       <input 
       formControlName="value_{{item.id}}"
       matInput 
       (change)="changeField(item.id)" 
       type="text" 
       class="value" 
-      placeholder="Value" 
+      placeholder="{{(generalDictionary$ | async)?.value}}" 
       >
     </mat-form-field>
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" class="type_field">
       <mat-select 
       formControlName="type_{{item.id}}"
-      placeholder="Select" 
+      placeholder="{{(generalDictionary$ | async)?.select}}" 
       (selectionChange)="changeField(item.id)"
       [value]="item.valueType"
       >

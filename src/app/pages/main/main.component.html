@@ -1,5 +1,7 @@
 <mat-card>
   <mat-card-content>
+    <mat-card-title>{{(dictionaryGeneral$ | async)?.pleaseEnter}}</mat-card-title>
+    <br>
     <form [formGroup]="form">
       <mat-form-field appearance="outline">
         <mat-select 
