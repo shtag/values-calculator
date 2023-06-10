@@ -5,3 +5,13 @@
   align-items: center;
   justify-content: space-between;
 }
+
+::ng-deep .dark-theme {
+  background-color: #303030;
+  color: #ffffff;
+
+  mat-card {
+    background-color: #424242;
+    color: #ffffff;
+  }
+}

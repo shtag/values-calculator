@@ -9,11 +9,13 @@ import { CoreModule } from './core/core.module';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AppReducer } from './state/state.reducers';
+import { NumberOnlyDirective } from './shared/directives/number-only.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainComponent
+    MainComponent,
+    // NumberOnlyDirective
   ],
   imports: [
     BrowserModule,

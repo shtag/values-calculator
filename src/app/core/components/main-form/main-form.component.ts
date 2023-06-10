@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, ElementRef, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -19,15 +19,21 @@ export class MainFormComponent implements OnDestroy {
   constructor(
     private store: Store,
     private dictionaryService: DictionaryService,
-    private converter: ConverterService
+    private converter: ConverterService,
+    private elementRef: ElementRef
   ) {
     this.items$.subscribe(item => {
       this.items = [];
       this.form = new FormGroup({});
       item.forEach(field => {
-        this.items.push(field)
-        this.form.addControl(`value_${field.id}`, new FormControl(field.value))
-        this.form.addControl(`type_${field.id}`, new FormControl(field.valueType))
+        // console.log('field', field)
+        // console.log('items', this.items)
+        // console.log(this.items.find(i => i.id === field.id))
+        if (!this.items.find(i => i.id === field.id)) {
+          this.items.push(field)
+          this.form.addControl(`value_${field.id}`, new FormControl(field.value))
+          this.form.addControl(`type_${field.id}`, new FormControl(field.valueType))
+        }
       })
     })
     this.generalDictionary$ = this.dictionaryService.dictionaryGeneral$
@@ -58,6 +64,10 @@ export class MainFormComponent implements OnDestroy {
 
   form: FormGroup = new FormGroup({});
 
+  focusedElementId = 1
+
+  lastChange = 0;
+
   addField() {
     const id = this.items.sort().reverse()[0].id + 1;
     this.store.dispatch(addField({ id: id, value: '', valueType: '' }))
@@ -68,11 +78,35 @@ export class MainFormComponent implements OnDestroy {
   }
 
   changeField(id: number) {
+    this.lastChange = id;
+    const val = this.form.value[`value_${id}`];
+    if (!val) return
+    const lastSymbol = val[val.length - 1];
+    // const regex = /^\d*\.?\d*$/;
+    const regex = /^[0-9]*[.]?[0-9]+$/;
+    if (!regex.test(val)) {
+      // console.log(lastSymbol)
+      return
+    }
+    if (!this.form.value[`type_${id}`]) {
+      return
+    }
+    this.focusedElementId = id;
     const value = this.form.value[`value_${id}`] as string;
     const type = this.form.value[`type_${id}`] as string;
     const field = { id: id, value: value, valueType: type }
     this.converter.convert(field, this.form);
-    // this.store.dispatch(updateFieldValue({ id: id, value: value, valueType: type }))
+    setTimeout(() => {
+      const focusedElement = this.elementRef.nativeElement.querySelector(`#value_${this.focusedElementId}`);
+      if (focusedElement) {
+        focusedElement.focus();
+      }
+    });
+
+  }
+
+  changeQuantity() {
+    this.changeField(this.lastChange)
   }
 
   logger() {

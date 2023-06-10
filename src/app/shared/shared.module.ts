@@ -10,9 +10,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { NumberOnlyDirective } from './directives/number-only.directive';
 
 @NgModule({
   declarations: [
+
+    // NumberOnlyDirective
   ],
   imports: [
     CommonModule,
@@ -39,7 +42,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     MatIconModule,
     MatAutocompleteModule,
     MatDialogModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    // NumberOnlyDirective
   ]
 })
 export class SharedModule { }

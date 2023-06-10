@@ -16,13 +16,13 @@ export const initialState: AppState = {
   fields: [
     {
       id: 1,
-      value: '',
-      valueType: ''
+      value: '1',
+      valueType: 'inch'
     },
     {
       id: 2,
-      value: '',
-      valueType: ''
+      value: '1',
+      valueType: 'inch'
     },
   ],
   language: 'en',

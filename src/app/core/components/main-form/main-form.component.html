@@ -3,19 +3,21 @@
   <div *ngFor="let item of (items$|async )" class="field_line">
     <mat-form-field appearance="outline" class="value_field">
       <input 
+      appNumberOnly
       formControlName="value_{{item.id}}"
       matInput 
-      (change)="changeField(item.id)" 
-      type="number" 
+      (input)="changeField(item.id)" 
+      type="text" 
       class="value" 
       placeholder="{{(generalDictionary$ | async)?.value}}" 
+      id="value_{{item.id}}"
       >
     </mat-form-field>
     <mat-form-field appearance="outline" class="type_field">
       <mat-select 
       formControlName="type_{{item.id}}"
       placeholder="{{(generalDictionary$ | async)?.select}}" 
-      (selectionChange)="changeField(item.id)"
+      (selectionChange)="changeQuantity()"
       [value]="item.valueType"
       >
         <mat-option value="">{{(generalDictionary$ | async)?.select}}</mat-option>

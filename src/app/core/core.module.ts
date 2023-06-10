@@ -5,6 +5,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { SharedModule } from '../shared/shared.module';
 import { MainFormComponent } from './components/main-form/main-form.component';
 import { SettingsDialogComponent } from './components/settings-dialog/settings-dialog.component';
+import { NumberOnlyDirective } from '../shared/directives/number-only.directive';
 
 
 
@@ -13,7 +14,8 @@ import { SettingsDialogComponent } from './components/settings-dialog/settings-d
     FooterComponent,
     HeaderComponent,
     MainFormComponent,
-    SettingsDialogComponent
+    SettingsDialogComponent,
+    NumberOnlyDirective
   ],
   imports: [
     CommonModule,
@@ -22,7 +24,8 @@ import { SettingsDialogComponent } from './components/settings-dialog/settings-d
   exports: [
     FooterComponent,
     HeaderComponent,
-    MainFormComponent
+    MainFormComponent,
+    SharedModule
   ]
 })
 export class CoreModule { }
