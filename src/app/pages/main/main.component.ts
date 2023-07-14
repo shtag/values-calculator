@@ -16,25 +16,25 @@ import { GeneralDictionaryLanguage, Types } from 'src/assets/dictianary';
 export class MainComponent {
   currentType$: Observable<Types>;
 
+  dictionaryGeneral$: Observable<GeneralDictionaryLanguage> = this.dictionaryService.dictionaryGeneral$;
+
+  types: { name: string; value: string }[] = [];
+
+  form = new FormGroup({
+    typeSelector: new FormControl()
+  })
+
   constructor(private store: Store, private dictionaryService: DictionaryService) {
     this.currentType$ = this.store.select(selectCurrentType)
     this.dictionaryService.dictionary$.subscribe(dictionary => {
       this.types = []
       Object.entries(dictionary).forEach(type => {
-        this.types.push({ name: type[1].name, value: type[0] });
+        if (type[1].name !== 'temperature' && type[1].name !== "температура") { // TODO: this line skip temperature, add temp convertion
+          this.types.push({ name: type[1].name, value: type[0] });
+        }
       });
     });
-
   }
-
-  dictionaryGeneral$: Observable<GeneralDictionaryLanguage> = this.dictionaryService.dictionaryGeneral$;
-
-
-  types: { name: string; value: string }[] = []
-
-  form = new FormGroup({
-    typeSelector: new FormControl()
-  })
 
   changeType() {
     if (this.form.value.typeSelector || this.form.value.typeSelector === '') {

@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { Field } from 'src/app/state/app.state';
-import { addField, deleteField, updateFieldValue } from 'src/app/state/state.actions';
+import { addField, deleteField } from 'src/app/state/state.actions';
 import { selectCurrentType, selectFields } from 'src/app/state/state.selectors';
 import { DictionaryService } from '../../services/dictionary.service';
 import { GeneralDictionaryLanguage, Types } from 'src/assets/dictianary';
@@ -16,41 +16,9 @@ import { ConverterService } from '../../services/converter.service';
 })
 export class MainFormComponent implements OnDestroy {
 
-  constructor(
-    private store: Store,
-    private dictionaryService: DictionaryService,
-    private converter: ConverterService,
-    private elementRef: ElementRef
-  ) {
-    this.items$.subscribe(item => {
-      this.items = [];
-      this.form = new FormGroup({});
-      item.forEach(field => {
-        // console.log('field', field)
-        // console.log('items', this.items)
-        // console.log(this.items.find(i => i.id === field.id))
-        if (!this.items.find(i => i.id === field.id)) {
-          this.items.push(field)
-          this.form.addControl(`value_${field.id}`, new FormControl(field.value))
-          this.form.addControl(`type_${field.id}`, new FormControl(field.valueType))
-        }
-      })
-    })
-    this.generalDictionary$ = this.dictionaryService.dictionaryGeneral$
-    this.dictionaryService.dictionary$.subscribe(dictionary => {
-      this.currentType$.subscribe((type) => {
-        this.types = [];
-        if (type) {
-          Object.entries(dictionary[type]?.values).forEach(type => {
-            this.types.push({ name: type[1], value: type[0] });
-          })
-        }
-        this.types.sort((a, b) => {
-          return (a.name >= b.name) ? 1 : -1;
-        })
-      })
-    })
-  }
+  itemsSubscription: Subscription;
+
+  dictionarySubscription: Subscription;
 
   private currentType$: Observable<Types> = this.store.select(selectCurrentType);
 
@@ -68,6 +36,41 @@ export class MainFormComponent implements OnDestroy {
 
   lastChange = 0;
 
+  constructor(
+    private store: Store,
+    private dictionaryService: DictionaryService,
+    private converter: ConverterService,
+    private elementRef: ElementRef
+  ) {
+    this.itemsSubscription = this.items$.subscribe(item => {
+      this.items = [];
+      this.form = new FormGroup({});
+      item.forEach(field => {
+        if (!this.items.find(i => i.id === field.id)) {
+          this.items.push(field)
+          this.form.addControl(`value_${field.id}`, new FormControl(field.value))
+          this.form.addControl(`type_${field.id}`, new FormControl(field.valueType))
+        }
+      })
+    })
+    this.generalDictionary$ = this.dictionaryService.dictionaryGeneral$
+    this.dictionarySubscription = this.dictionaryService.dictionary$.subscribe(dictionary => {
+      this.currentType$.subscribe((type) => {
+        this.types = [];
+        if (type) {
+          Object.entries(dictionary[type]?.values).forEach(type => {
+            this.types.push({ name: type[1], value: type[0] });
+          })
+        }
+        this.types.sort((a, b) => {
+          return (a.name >= b.name) ? 1 : -1;
+        })
+      })
+    })
+  }
+
+
+
   addField() {
     const id = this.items.sort().reverse()[0].id + 1;
     this.store.dispatch(addField({ id: id, value: '', valueType: '' }))
@@ -81,11 +84,8 @@ export class MainFormComponent implements OnDestroy {
     this.lastChange = id;
     const val = this.form.value[`value_${id}`];
     if (!val) return
-    const lastSymbol = val[val.length - 1];
-    // const regex = /^\d*\.?\d*$/;
     const regex = /^[0-9]*[.]?[0-9]+$/;
     if (!regex.test(val)) {
-      // console.log(lastSymbol)
       return
     }
     if (!this.form.value[`type_${id}`]) {
@@ -129,10 +129,11 @@ export class MainFormComponent implements OnDestroy {
         types[id].value = el[1] as string;
       }
     })
-    // this.converter.convert('1', 'inch', types);
   }
 
   ngOnDestroy(): void {
     console.log('destroy');
+    this.itemsSubscription.unsubscribe();
+    this.dictionarySubscription.unsubscribe()
   }
 }

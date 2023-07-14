@@ -12,7 +12,6 @@ import { ThemePalette } from '@angular/material/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  // isDarkTheme: boolean;
 
   constructor(
     private theme: ThemeService,
@@ -20,7 +19,6 @@ export class HeaderComponent {
     public dialog: MatDialog,
     private overlayContainer: OverlayContainer
   ) {
-    // this.isDarkTheme = true;
     this.title = '';
     this.dictionary.dictionaryGeneral$.subscribe(item => this.title = item.title)
   }
@@ -49,7 +47,7 @@ export class HeaderComponent {
   }
 
   openSettings() {
-    const dialogRef = this.dialog.open(SettingsDialogComponent, {
+    this.dialog.open(SettingsDialogComponent, {
       height: '300px',
       width: '300px',
     });
