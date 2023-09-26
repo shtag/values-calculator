@@ -7,8 +7,6 @@ import { MainFormComponent } from './components/main-form/main-form.component';
 import { SettingsDialogComponent } from './components/settings-dialog/settings-dialog.component';
 import { NumberOnlyDirective } from '../shared/directives/number-only.directive';
 
-
-
 @NgModule({
   declarations: [
     FooterComponent,

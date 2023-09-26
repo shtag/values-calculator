@@ -7,6 +7,5 @@ export function shorted(number: number): string {
   if (number > 100000) coef = 3;
   const newNum = number.toFixed(coef)
   const result = parseFloat(newNum.replace(/0+$/, ""))
-  // console.log(number, Math.round(number))
   return result.toString()
 }
