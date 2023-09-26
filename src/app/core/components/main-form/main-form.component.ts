@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { Field } from 'src/app/state/app.state';
-import { addField, deleteField } from 'src/app/state/state.actions';
+import { addField, deleteField, resetFields } from 'src/app/state/state.actions';
 import { selectCurrentType, selectFields } from 'src/app/state/state.selectors';
 import { DictionaryService } from '../../services/dictionary.service';
 import { GeneralDictionaryLanguage, Types } from 'src/assets/dictianary';
@@ -67,6 +67,8 @@ export class MainFormComponent implements OnDestroy {
         })
       })
     })
+
+
   }
 
 
@@ -107,6 +109,10 @@ export class MainFormComponent implements OnDestroy {
 
   changeQuantity() {
     this.changeField(this.lastChange)
+  }
+
+  reset() {
+    this.store.dispatch(resetFields({ id: 2 }))
   }
 
   logger() {

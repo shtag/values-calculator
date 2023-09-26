@@ -26,3 +26,8 @@ export const updateLanguage = createAction(
   '[Language] Update Field Value',
   props<{ language: 'ru' | 'en' }>()
 );
+
+export const resetFields = createAction(
+  '[Field] Reset Fields',
+  props<{ id: number }>()
+);
